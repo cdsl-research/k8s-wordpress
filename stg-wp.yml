@@ -8,12 +8,10 @@ spec:
   selector:
     matchLabels:
       app: wp-app
-      target: staging
   template:
     metadata:
       labels:
         app: wp-app
-        target: staging
     spec:
       containers:
         - name: wp-container
@@ -61,4 +59,3 @@ spec:
       nodePort: 30081
   selector:
     app: wp-app
-    target: staging
