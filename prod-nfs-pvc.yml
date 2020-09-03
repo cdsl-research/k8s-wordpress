@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-silo
+  namespace: wp-production
+spec:
+  accessModes:
+  - ReadWriteMany
+  ## PVをラベルでマッチさせるため、Nullを設定
+  storageClassName: ""
+  resources:
+    requests:
+      storage: "5Gi"
+  selector:
+    matchLabels:
+      name: pv-nfs
+

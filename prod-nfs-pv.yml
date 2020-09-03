@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: nfs-silo
+  namespace: wp-production
+  labels:
+    name: pv-nfs
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  nfs:
+    server: dmz-silo.dmz.tak-cslab.org
+    path: /var/nfs/wp-production
+
