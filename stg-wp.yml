@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wp-dep
+  namespace: wp-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wp-app
+      target: staging
+  template:
+    metadata:
+      labels:
+        app: wp-app
+        target: staging
+    spec:
+      containers:
+        - name: wp-container
+          image: wordpress:php7.4-apache
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: dmz-dolphin-master
+            - name: WORDPRESS_DB_NAME
+              value: wp_staging
+            - name: WORDPRESS_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: wp-auth-secret-vars
+                  key: mysql-user
+                  optional: false
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wp-auth-secret-vars
+                  key: mysql-password
+                  optional: false
+          ports:
+            - containerPort: 80
+              name: wordpress
+          volumeMounts:
+            - name: nfs
+              mountPath: /var/www/html
+      volumes:
+        - name: nfs
+          persistentVolumeClaim:
+            claimName: nfs-silo
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wp-svc
+  namespace: wp-staging
+spec:
+  type: NodePort
+  ports:
+    - name: "http-port"
+      protocol: "TCP"
+      port: 8080
+      targetPort: 80
+      nodePort: 30081
+  selector:
+    app: wp-app
+    target: staging
