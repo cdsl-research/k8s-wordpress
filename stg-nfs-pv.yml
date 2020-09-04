@@ -1,8 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: nfs-silo
-  namespace: wp-staging
+  name: nfs-silo-stg
   labels:
     name: pv-nfs
     release: stg
