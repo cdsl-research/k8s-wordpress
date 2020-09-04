@@ -5,6 +5,7 @@ metadata:
   namespace: wp-staging
   labels:
     name: pv-nfs
+    release: stg
 spec:
   capacity:
     storage: 5Gi

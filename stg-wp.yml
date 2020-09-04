@@ -42,7 +42,7 @@ spec:
       volumes:
         - name: nfs
           persistentVolumeClaim:
-            claimName: nfs-silo
+            claimName: nfs-silo-stg
 ---
 apiVersion: v1
 kind: Service
